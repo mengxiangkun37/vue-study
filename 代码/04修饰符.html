@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        .div {
+            height: 500px;
+            background: #00ff00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div id="app" class="div" @click='div'>
+        <input type="button" value="dianji" @click.stop='btn'>
+    </div> -->
+    <!-- <div id="app" class="div" @click='div'>
+        <a href="https:www.baidu.com" @click.prevent='btn'>baidu</a>
+    </div> -->
+    <!-- <div id="app" class="div" @click.capture='div'>
+        <input type="button" value="dianji" @click='btn'>
+    </div> -->
+    <!-- <div id="app" class="div" @click.self='div'>
+        <input type="button" value="dianji" @click='btn'>
+    </div> -->
+    <!-- <a href="https://www.baidu.com" @click.prevent='btn'>baidu</a> -->
+    <a href="https:www.baidu.com" @click.prevent='btn'>baidu</a>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+                div() {
+                    console.log('div')
+                },
+                btn() {
+                    console.log('btn')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

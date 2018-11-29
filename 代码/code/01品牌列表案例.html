@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=s, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./../lib/vue.js"></script>
+    <link rel="stylesheet" href="./../lib/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="./../lib/css/bootstrap.min.css"> -->
+</head>
+
+<body>
+    <div id="app">
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name" @keyup.113='add'>
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+            </div>
+        </div>
+
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='item in search(keywords)' :key='item.id'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.cname}}</td>
+                    <td>{{item.ctime | time('')}}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div id="app2">
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+            </div>
+        </div>
+
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='item in search(keywords)' :key='item.id'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.cname}}</td>
+                    <td>{{item.ctime | time('')}}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        Vue.filter('time', function (time, zdy) {
+            var td = new Date(time)
+            var y = td.getFullYear()
+            var m = td.getMonth() + 1
+            var d = td.getDate()
+            if (zdy && zdy.toLowerCase() == 'yyyy-mm-dd') {
+                return `${y}-${m}-${d}`
+            } else {
+                var hh = td.getHours()
+                var mm = td.getMinutes()
+                var ss = td.getSeconds()
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [
+                    { id: 1, cname: '宝马', ctime: new Date() },
+                    { id: 2, cname: '奔驰', ctime: new Date() }
+                ]
+            },
+            methods: {
+                add() {
+
+                    this.list.push({ id: this.id, cname: this.name, ctime: new Date() })
+                    this.id = this.name = ''
+                },
+                del(id) {
+                    // this.list.some((item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1)
+                    //         return true;
+                    //     }
+                    // })
+
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    this.list.splice(index, 1)
+                },
+                search(keywords) {
+                    // var newarr = []
+                    // this.list.forEach(element => {
+                    //     if (element.cname.indexOf(keywords) != -1) {
+                    //         newarr.push(element)
+                    //     }
+
+                    // });
+
+                    var newarr = this.list.filter(item => {
+                        if (item.cname.includes(keywords)) {
+                            return item
+                        }
+                    })
+                    return newarr;
+
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app2',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [
+                    { id: 1, cname: '宝马', ctime: new Date() },
+                    { id: 2, cname: '奔驰', ctime: new Date() }
+                ]
+            },
+            methods: {
+                add() {
+
+                    this.list.push({ id: this.id, cname: this.name, ctime: new Date() })
+                    this.id = this.name = ''
+                },
+                del(id) {
+                    // this.list.some((item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1)
+                    //         return true;
+                    //     }
+                    // })
+
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    this.list.splice(index, 1)
+                },
+                search(keywords) {
+                    // var newarr = []
+                    // this.list.forEach(element => {
+                    //     if (element.cname.indexOf(keywords) != -1) {
+                    //         newarr.push(element)
+                    //     }
+
+                    // });
+
+                    var newarr = this.list.filter(item => {
+                        if (item.cname.includes(keywords)) {
+                            return item
+                        }
+                    })
+                    return newarr;
+
+                }
+            },
+            filters: {
+                time: function (time, zdy) {
+                    var td = new Date(time)
+                    var y = td.getFullYear()
+                    var m = td.getMonth() + 1
+                    var d = td.getDate()
+                    if (zdy && zdy.toLowerCase() == 'yyyy-mm-dd') {
+                        return `${y}-${m}-${d}`
+                    } else {
+                        var hh = td.getHours()
+                        var mm = td.getMinutes().toString().padStart(2, '0')
+                        var ss = td.getSeconds().toString().padStart(2, '0')
+                        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+                    }
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
